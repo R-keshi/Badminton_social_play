@@ -87,7 +87,7 @@ def download_report():
         st.download_button(label="Download Report", data=report_csv, file_name="club_day_report.csv", mime="text/csv")
 
 # Streamlit UI
-st.title("KTS Badminton Club Day Management")
+st.title("KTS Badminton Club")
 
 # Upload member list
 upload_members()
