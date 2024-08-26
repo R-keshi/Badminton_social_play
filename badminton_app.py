@@ -24,10 +24,14 @@ if 'end_time' not in st.session_state:
 
 # Load and display the logo
 
-st.logo(
-    LOGO_URL_LARGE,
-    link="https://drive.google.com/file/d/1nv4pdgEc4xufprA2DzFFYu7Hy-2VcZMT/view?usp=sharing",
-    icon_image=LOGO_URL_SMALL,
+LOGO_URL_LARGE = "https://your_logo_url_large.com/logo.png"
+LOGO_URL_SMALL = "https://your_logo_url_small.com/logo.png"
+
+# Display logo with a link
+st.markdown(
+    f'<a href="https://drive.google.com/file/d/1nv4pdgEc4xufprA2DzFFYu7Hy-2VcZMT/view?usp=sharing" target="_blank">'
+    f'<img src="{LOGO_URL_LARGE}" width="200"></a>',
+    unsafe_allow_html=True
 )
 
 # Function to upload a CSV file for the member list
