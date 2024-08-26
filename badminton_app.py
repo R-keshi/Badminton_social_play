@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
 import random
-from datetime import datetime
+from datetime import datetime, timedelta
+import time
 
 # Initialize session state
 if 'members' not in st.session_state:
@@ -14,9 +15,15 @@ if 'visitor_players' not in st.session_state:
     st.session_state.visitor_players = []
 if 'signed_out_players' not in st.session_state:
     st.session_state.signed_out_players = []
+if 'court_assignments' not in st.session_state:
+    st.session_state.court_assignments = None
+if 'timer_running' not in st.session_state:
+    st.session_state.timer_running = False
+if 'end_time' not in st.session_state:
+    st.session_state.end_time = None
 
 # Load and display the logo
-st.image("https://drive.google.com/file/d/1nv4pdgEc4xufprA2DzFFYu7Hy-2VcZMT/view?usp=drive_link", width=200)
+st.image("https://drive.google.com/file/d/1nv4pdgEc4xufprA2DzFFYu7Hy-2VcZMT/view?usp=sharing", width=200)
 
 # Function to upload a CSV file for the member list
 def upload_members():
@@ -51,7 +58,7 @@ def input_court_details():
     if st.button("Generate Court Assignments"):
         generate_court_assignments(num_courts, game_duration)
 
-# Function to generate court assignments
+# Function to generate court assignments and start countdown timer
 def generate_court_assignments(num_courts, game_duration):
     players = st.session_state.present_players + st.session_state.visitor_players
     random.shuffle(players)  # Randomize player order
@@ -60,22 +67,28 @@ def generate_court_assignments(num_courts, game_duration):
 
     for i in range(num_courts):
         assigned_players = players[i*4:(i+1)*4]
-        if len(assigned_players) == 4:
-            court_assignments[f'Court {i+1}'] = assigned_players
-        else:
-            st.error(f"Not enough players to assign 4 players to Court {i+1}. Ensure each court has exactly 4 players.")
-            return
-    
+        court_assignments[f'Court {i+1}'] = assigned_players
+
     if len(players) > num_courts * 4:
         rest_players = players[num_courts*4:]
     
-    st.subheader("Court Assignments")
-    court_table = pd.DataFrame.from_dict(court_assignments, orient='index').transpose()
-    st.table(court_table)
+    st.session_state.court_assignments = court_assignments
+    st.session_state.rest_queue = rest_players
 
-    if rest_players:
-        st.write(f"Resting Players: {', '.join(rest_players)}")
-        st.session_state.rest_queue = rest_players
+    # Start countdown timer
+    st.session_state.end_time = datetime.now() + timedelta(minutes=game_duration)
+    st.session_state.timer_running = True
+
+# Countdown timer function
+def display_timer():
+    if st.session_state.timer_running:
+        remaining_time = st.session_state.end_time - datetime.now()
+        if remaining_time.total_seconds() > 0:
+            minutes, seconds = divmod(int(remaining_time.total_seconds()), 60)
+            st.subheader(f"Time Remaining: {minutes:02d}:{seconds:02d}")
+        else:
+            st.session_state.timer_running = False
+            st.subheader("Time's up!")
 
 # Function to allow player sign-out
 def player_sign_out():
@@ -103,7 +116,7 @@ def download_report():
         st.warning("No players to include in the report. Please ensure some players have participated before generating the log.")
 
 # Streamlit UI
-st.title("KTS Badminton Club Day Management")
+st.title("KTS Badminton Club")
 
 # Upload member list
 upload_members()
@@ -119,10 +132,21 @@ add_visitor_player()
 if st.session_state.present_players or st.session_state.visitor_players:
     input_court_details()
 
+# Show court assignments if available
+if st.session_state.court_assignments:
+    st.subheader("Court Assignments")
+    court_table = pd.DataFrame.from_dict(st.session_state.court_assignments, orient='index').transpose()
+    st.table(court_table)
+
+    if st.session_state.rest_queue:
+        st.write(f"Resting Players: {', '.join(st.session_state.rest_queue)}")
+
+# Display countdown timer
+display_timer()
+
 # Player sign-out functionality
 if st.session_state.present_players or st.session_state.visitor_players:
     player_sign_out()
 
 # Download report
 download_report()
-
