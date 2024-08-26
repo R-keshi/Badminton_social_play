@@ -23,7 +23,12 @@ if 'end_time' not in st.session_state:
     st.session_state.end_time = None
 
 # Load and display the logo
-st.image("https://drive.google.com/file/d/1nv4pdgEc4xufprA2DzFFYu7Hy-2VcZMT/view?usp=sharing", width=200)
+
+st.logo(
+    LOGO_URL_LARGE,
+    link="https://drive.google.com/file/d/1nv4pdgEc4xufprA2DzFFYu7Hy-2VcZMT/view?usp=sharing",
+    icon_image=LOGO_URL_SMALL,
+)
 
 # Function to upload a CSV file for the member list
 def upload_members():
