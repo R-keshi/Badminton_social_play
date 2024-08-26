@@ -24,8 +24,8 @@ if 'end_time' not in st.session_state:
 
 # Load and display the logo
 
-LOGO_URL_LARGE = "https://your_logo_url_large.com/logo.png"
-LOGO_URL_SMALL = "https://your_logo_url_small.com/logo.png"
+LOGO_URL_LARGE = "KTS logo with golden circle.png"
+LOGO_URL_SMALL = "KTS logo with golden circle.png"
 
 # Display logo with a link
 st.markdown(
