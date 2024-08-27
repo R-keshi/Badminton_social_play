@@ -25,15 +25,6 @@ if 'end_time' not in st.session_state:
 # Load and display the logo
 
 LOGO_URL_LARGE = "KTS logo with golden circle.png"
-LOGO_URL_SMALL = "KTS logo with golden circle.png"
-
-# Display logo with a link
-st.markdown(
-    f'<a href="https://github.com/R-keshi/Badminton_social_play/blob/ceff760a54812f704789fa24235cec8558299192/KTS%20logo%20with%20golden%20circle.png" target="_blank">'
-    f'<img src="{LOGO_URL_LARGE}" width="200"></a>',
-    unsafe_allow_html=True
-)
-
 st.image(LOGO_URL_LARGE, caption="Sunrise by the mountains")
 
 # Function to upload a CSV file for the member list
