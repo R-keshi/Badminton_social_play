@@ -34,6 +34,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+st.image(LOGO_URL_LARGE, caption="Sunrise by the mountains")
+
 # Function to upload a CSV file for the member list
 def upload_members():
     uploaded_file = st.file_uploader("Upload Member List (CSV)", type="csv")
