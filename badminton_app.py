@@ -24,8 +24,8 @@ if 'end_time' not in st.session_state:
 
 # Load and display the logo
 
-LOGO_URL_LARGE = "https://github.com/R-keshi/Badminton_social_play/blob/ceff760a54812f704789fa24235cec8558299192/KTS%20logo%20with%20golden%20circle.png"
-LOGO_URL_SMALL = "https://github.com/R-keshi/Badminton_social_play/blob/ceff760a54812f704789fa24235cec8558299192/KTS%20logo%20with%20golden%20circle.png"
+LOGO_URL_LARGE = "KTS logo with golden circle.png"
+LOGO_URL_SMALL = "KTS logo with golden circle.png"
 
 # Display logo with a link
 st.markdown(
